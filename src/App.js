@@ -1,23 +1,40 @@
-import logo from './logo.svg';
 import './App.css';
+import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
+import PlayerProfile from './Components/PlayerProfile/PlayerProfile';
+import React, { useEffect, useState } from 'react';
+import playerInfo from '../src/data/playerInfo.json';
+import Club from '../src/Components/Club/Club';
+import '../src/Components/Club/Club.css';
 
 function App() {
+  const [players, setPlayers] = useState([]);
+
+  useEffect(() => {
+    setPlayers(playerInfo);
+  }, [])
+
+  const [club, setClub] = useState([]);
+  const handleAddPlr = (player) => {
+    const newPlayer = [...club, player];
+    setClub(newPlayer);
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="body">
+      <h1 className="d-flex justify-content-center">Select Players for your WWE Wrestling Club</h1>
+
+      <div className="playerContainer">
+        <div>
+          {
+            players.map(plr => <PlayerProfile handleAddPlr={handleAddPlr} player={plr}></PlayerProfile>)
+          }
+        </div>
+        <div className="clubInfo">
+          {
+            <Club club={club}></Club>
+          }
+        </div>
+      </div>
     </div>
   );
 }
